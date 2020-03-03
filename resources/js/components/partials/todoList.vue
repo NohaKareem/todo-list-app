@@ -2,15 +2,20 @@
     <div class="container">
         <ul>
             <li v-for="todoItem in todoItems" :key="todoItem.id" :class="{ checked: todoItem.done }">
-                <input type="checkbox" checked v-if="todoItem.done"> 
-                <input type="checkbox" v-else>
-                <!-- @click="toggleCheck(todoItem)" -->
-                {{ todoItem.item }}
+                <form action="/todoItem" method="post" enctype="multipart/form-data">
+                    <input type="checkbox" checked v-if="todoItem.done"> 
+                    <input type="checkbox" v-else>
+                    <!-- @click="toggleCheck(todoItem)" -->
+                    {{ todoItem.item }}
+                    <i class="fa fa-trash" aria-hidden="true" @click="removeTodo(todoItem.id)"></i>
+                </form>
             </li>
             <li>
-                <form action="/todoItem" ref="addTodoForm" method="post">
+                <form action="/todoItem" ref="addTodoForm" method="post" enctype="multipart/form-data">
                     <input type="text" name="item" placeholder="add to do">
-                    <button class="btn btn-success" id="addTodoButton" @click="addTodo">+</button>
+                    <button type="button" class="btn btn-success" id="addTodoButton" @click="addTodo()" :disabled = "sending">
+                        {{ sending ? 'adding...' : '+' }}
+                    </button>
                 </form>
             </li>
         </ul>
@@ -25,25 +30,41 @@
                 return this.$store.state.todos;
             }
         }, 
+        data() {
+            return {
+                sending: false
+            }
+        },
         methods: {
             // toggleCheck(todoItem) {
             //     todoItem.done = !todoItems.done;
             // }
-            addTodo(){
+            addTodo() {
                 const formData = new FormData(this.$refs.addTodoForm);
                 console.log(formData)
+                this.sending = true;
                 let self = this;
                 axios.post(`/todoItem`, formData)
                     .then(response => {
                         console.log(response.data);
-                        this.$store.commit('todos', response.data);//~~
+                        this.$store.commit('todos', response.data);
+                    }).catch(error => {
+                        console.log(error)
+                        this.$errors = error.reponse.data.errors; 
+                    }).then(() => {
+                        self.sending = false;
+                    });
+            }, 
+            removeTodo(itemId) {
+                let self = this;
+                axios.delete(`/todoItem/${itemId}`)
+                    .then(response => {
+                        console.log(response.data);
+                        this.$store.commit('todos', response.data);
                     }).catch(error => {
                         console.log(error)
                         this.$errors = error.reponse.data.errors; 
                     });
-                    // .then(() => {
-                    //     self.uploading = false; 
-                    // });
             }
         }
     }
@@ -65,7 +86,7 @@
     }
 
     input[type=text] {
-        width: 90%;
+        // width: 90%;
         border: none;
         display: inline-block;
     }
@@ -101,5 +122,13 @@
 
     .unChecked {
         background-color: white;
+    }
+
+    // delete
+    .fa-trash {
+        cursor: pointer;
+    }
+    .fa-trash:hover {
+        color: red;
     }
 </style>

@@ -1960,12 +1960,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'todoList',
   computed: {
     todoItems: function todoItems() {
       return this.$store.state.todos;
     }
+  },
+  data: function data() {
+    return {
+      sending: false
+    };
   },
   methods: {
     // toggleCheck(todoItem) {
@@ -1976,18 +1986,31 @@ __webpack_require__.r(__webpack_exports__);
 
       var formData = new FormData(this.$refs.addTodoForm);
       console.log(formData);
+      this.sending = true;
       var self = this;
       axios.post("/todoItem", formData).then(function (response) {
         console.log(response.data);
 
-        _this.$store.commit('todos', response.data); //~~
-
+        _this.$store.commit('todos', response.data);
       })["catch"](function (error) {
         console.log(error);
         _this.$errors = error.reponse.data.errors;
-      }); // .then(() => {
-      //     self.uploading = false; 
-      // });
+      }).then(function () {
+        self.sending = false;
+      });
+    },
+    removeTodo: function removeTodo(itemId) {
+      var _this2 = this;
+
+      var self = this;
+      axios["delete"]("/todoItem/".concat(itemId)).then(function (response) {
+        console.log(response.data);
+
+        _this2.$store.commit('todos', response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        _this2.$errors = error.reponse.data.errors;
+      });
     }
   }
 });
@@ -6537,7 +6560,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\nul[data-v-33212d26] {\n  list-style: none;\n}\nul li[data-v-33212d26] {\n  font-size: 30px;\n  border-top: 1px solid red;\n  border-bottom: 1px solid red;\n}\n.checked[data-v-33212d26] {\n  text-decoration: line-through;\n}\ninput[type=text][data-v-33212d26] {\n  width: 90%;\n  border: none;\n  display: inline-block;\n}\n#addTodoButton[data-v-33212d26] {\n  display: inline !important;\n}\ninput[type=checkbox][data-v-33212d26] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  vertical-align: middle;\n  width: 30px;\n  height: 30px;\n  font-size: 30px;\n  border-radius: 10px;\n  margin-top: -5px;\n  border: solid 1px black;\n  background-color: white;\n}\ninput[type=checkbox][data-v-33212d26]:checked:after {\n  vertical-align: middle;\n  position: relative;\n  bottom: 5px;\n  left: 3px;\n  top: -10px;\n  color: green;\n  content: \"\\2713\";\n  /* check mark */\n}\n.unChecked[data-v-33212d26] {\n  background-color: white;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\nul[data-v-33212d26] {\n  list-style: none;\n}\nul li[data-v-33212d26] {\n  font-size: 30px;\n  border-top: 1px solid red;\n  border-bottom: 1px solid red;\n}\n.checked[data-v-33212d26] {\n  text-decoration: line-through;\n}\ninput[type=text][data-v-33212d26] {\n  border: none;\n  display: inline-block;\n}\n#addTodoButton[data-v-33212d26] {\n  display: inline !important;\n}\ninput[type=checkbox][data-v-33212d26] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  vertical-align: middle;\n  width: 30px;\n  height: 30px;\n  font-size: 30px;\n  border-radius: 10px;\n  margin-top: -5px;\n  border: solid 1px black;\n  background-color: white;\n}\ninput[type=checkbox][data-v-33212d26]:checked:after {\n  vertical-align: middle;\n  position: relative;\n  bottom: 5px;\n  left: 3px;\n  top: -10px;\n  color: green;\n  content: \"\\2713\";\n  /* check mark */\n}\n.unChecked[data-v-33212d26] {\n  background-color: white;\n}\n.fa-trash[data-v-33212d26] {\n  cursor: pointer;\n}\n.fa-trash[data-v-33212d26]:hover {\n  color: red;\n}", ""]);
 
 // exports
 
@@ -38047,11 +38070,36 @@ var render = function() {
             "li",
             { key: todoItem.id, class: { checked: todoItem.done } },
             [
-              todoItem.done
-                ? _c("input", { attrs: { type: "checkbox", checked: "" } })
-                : _c("input", { attrs: { type: "checkbox" } }),
-              _vm._v(" "),
-              _vm._v("\n            " + _vm._s(todoItem.item) + "\n        ")
+              _c(
+                "form",
+                {
+                  attrs: {
+                    action: "/todoItem",
+                    method: "post",
+                    enctype: "multipart/form-data"
+                  }
+                },
+                [
+                  todoItem.done
+                    ? _c("input", { attrs: { type: "checkbox", checked: "" } })
+                    : _c("input", { attrs: { type: "checkbox" } }),
+                  _vm._v(" "),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(todoItem.item) +
+                      "\n                "
+                  ),
+                  _c("i", {
+                    staticClass: "fa fa-trash",
+                    attrs: { "aria-hidden": "true" },
+                    on: {
+                      click: function($event) {
+                        return _vm.removeTodo(todoItem.id)
+                      }
+                    }
+                  })
+                ]
+              )
             ]
           )
         }),
@@ -38061,7 +38109,11 @@ var render = function() {
             "form",
             {
               ref: "addTodoForm",
-              attrs: { action: "/todoItem", method: "post" }
+              attrs: {
+                action: "/todoItem",
+                method: "post",
+                enctype: "multipart/form-data"
+              }
             },
             [
               _c("input", {
@@ -38072,10 +38124,24 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-success",
-                  attrs: { id: "addTodoButton" },
-                  on: { click: _vm.addTodo }
+                  attrs: {
+                    type: "button",
+                    id: "addTodoButton",
+                    disabled: _vm.sending
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.addTodo()
+                    }
+                  }
                 },
-                [_vm._v("+")]
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.sending ? "adding..." : "+") +
+                      "\n                "
+                  )
+                ]
               )
             ]
           )

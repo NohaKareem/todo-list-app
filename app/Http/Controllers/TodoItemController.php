@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use App\Http\Controllers\Controller;//~
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\Storage;
@@ -49,5 +49,23 @@ class TodoItemController extends Controller
         });
         
         return response()->json($todos);
+    }
+
+    /**
+     * Remove the specified todo item from storage.
+     *
+     * @param  \App\TodoItem  $todoItem
+     * @return  \Illuminate\Http\Response 
+     */
+    public function destroy(ToDoItem $todoItem) {
+        $todoItem->delete();
+
+        // return all todo items as json
+        $todoItemTransformer = new TodoItemTransformer();
+        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            return $todoItemTransformer->transform($todoItem);
+        });
+        
+        return response()->json($todoItems);
     }
 }

@@ -17,3 +17,4 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post("/todoItem", "TodoItemController@store")->name("todoitem.create"); 
+Route::delete("/todoItem/{todoItem}", "TodoItemController@destroy")->name("todoitem.delete");
