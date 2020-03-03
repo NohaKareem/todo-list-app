@@ -44,11 +44,13 @@ class TodoItemController extends Controller
 
         // return all todo items as json 
         $todoItemTransformer = new TodoItemTransformer();
-        $todos = TodoItem::all()->map(function ($todo) use ($todoItemTransformer) {
-            return $todoItemTransformer->transform($todo);
+        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            return $todoItemTransformer->transform($todoItem);
         });
         
-        return response()->json($todos);
+        dump($todoItems);
+
+        return response()->json($todoItems);
     }
 
     /**
