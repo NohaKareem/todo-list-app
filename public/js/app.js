@@ -38447,16 +38447,15 @@ var render = function() {
       }
     },
     [
-      _vm.item.done
-        ? _c("input", {
-            attrs: { type: "checkbox", name: "done", checked: "" },
-            on: {
-              change: function($event) {
-                return _vm.updateTodo()
-              }
-            }
-          })
-        : _vm._e(),
+      _c("input", {
+        attrs: { type: "checkbox", name: "done" },
+        domProps: { checked: _vm.item.done },
+        on: {
+          change: function($event) {
+            return _vm.updateTodo()
+          }
+        }
+      }),
       _vm._v(" "),
       _vm._v("\n    " + _vm._s(_vm.item.item) + "\n    "),
       _c("i", {

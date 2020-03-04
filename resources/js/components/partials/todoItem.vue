@@ -1,7 +1,7 @@
 <template>
     <form action="/todoItem" ref="checkBoxForm" method="post" enctype="multipart/form-data">
         <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
-        <input type="checkbox" name="done" checked v-if="item.done" @change="updateTodo()"> 
+        <input type="checkbox" name="done" :checked="item.done" @change="updateTodo()"> 
         <!-- <input type="checkbox" v-else> -->
         <!-- @click="toggleCheck(item)" -->
         {{ item.item }}
@@ -46,7 +46,7 @@
                 this.sending = true;
 
     			const formData = new FormData(this.$refs.checkBoxForm);
-    			formData.append('_method', 'PATCH');
+                formData.append('_method', 'PATCH');
 
     			axios.post(`/todoItem/${this.item.id}`, formData)
     			.then(response => {
