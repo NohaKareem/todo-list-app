@@ -51,7 +51,6 @@
 </script>
 
 <style lang="scss" scoped>
-// import 
     ul {
         list-style: none;
         li {
