@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <input type="text" name="searchStr" id="searchStr" placeholder="search for todo here" @keyup="searchTodos()">
+        <i class="fa fa-search" aria-hidden="true"></i>
         <ul>
             <li v-for="todoItem in todoItems" 
                 :key="todoItem.id" :class="{ checked: todoItem.done }"> 
@@ -46,10 +47,14 @@
 </script>
 
 <style lang="scss" >
-    input[type=text] {
+    input[type=text], .fa-search {
         font-size: 30px;
     }
     #searchStr {
         margin-left: 40px;
+        width: 85%;
+    }
+    .fa-search {
+        margin-left: 10px;
     }
 </style>

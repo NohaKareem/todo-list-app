@@ -2150,6 +2150,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'todoSearch',
@@ -6787,7 +6788,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "input[type=text] {\n  font-size: 30px;\n}\n#searchStr {\n  margin-left: 40px;\n}", ""]);
+exports.push([module.i, "input[type=text], .fa-search {\n  font-size: 30px;\n}\n#searchStr {\n  margin-left: 40px;\n  width: 85%;\n}\n.fa-search {\n  margin-left: 10px;\n}", ""]);
 
 // exports
 
@@ -38547,6 +38548,8 @@ var render = function() {
         }
       }
     }),
+    _vm._v(" "),
+    _c("i", { staticClass: "fa fa-search", attrs: { "aria-hidden": "true" } }),
     _vm._v(" "),
     _c(
       "ul",
