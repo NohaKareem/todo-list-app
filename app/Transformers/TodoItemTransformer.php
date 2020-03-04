@@ -1,6 +1,5 @@
 <?php
     namespace App\Transformers;
-    // use App\Transformers\Transformer;
 
     class TodoItemTransformer extends AbstractTransformer {
         /** 

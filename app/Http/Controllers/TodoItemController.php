@@ -47,7 +47,6 @@ class TodoItemController extends Controller
         $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
             return $todoItemTransformer->transform($todoItem);
         });
-            // dump($todoItems);
 
         return response()->json($todoItems);
         // $todos = TodoItem::all();
@@ -84,9 +83,14 @@ class TodoItemController extends Controller
 		$todoItem->fresh();
 
         // return response()->json($todoItemTransformer->transform($todoItem));
+        $todoItemTransformer = new TodoItemTransformer();
+        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            return $todoItemTransformer->transform($todoItem);
+        });
 
-        $todos = TodoItem::all();
-        return compact('todos');
+        return response()->json($todoItems);
+        // $todos = TodoItem::all();
+        // return compact('todos');
 	}
 
     /**
@@ -119,12 +123,11 @@ class TodoItemController extends Controller
             ->where('item', 'LIKE', "%{$searchStr}%") 
             ->get();
 
-        // $todoItemTransformer = new TodoItemTransformer();
-        // $todoItems = $searchResults->map(function ($todoItem) use ($todoItemTransformer) {
-        //     return $todoItemTransformer->transform($todoItem);
-        // });
-        // dump($todoItems);
-        // return response()->json($todoItems);
-        return compact('searchResults');        
+        $todoItemTransformer = new TodoItemTransformer();
+        $todoItems = $searchResults->map(function ($todoItem) use ($todoItemTransformer) {
+            return $todoItemTransformer->transform($todoItem);
+        });
+        return response()->json($todoItems);
+        // return compact('searchResults');        
     }
 }
