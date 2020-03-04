@@ -1,7 +1,7 @@
 <template>
     <form action="/todoItem" ref="checkBoxForm" method="post" enctype="multipart/form-data">
         <input type="checkbox" name="done" :checked="item.done" @change="updateTodo()"> 
-        {{ item.item }}
+        {{ item.item }} 
         <i class="fa fa-trash" aria-hidden="true" @click="removeTodo(item.id)"></i>
     </form>
 </template>

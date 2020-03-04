@@ -103,19 +103,11 @@ class TodoItemController extends Controller
 
         $todoItem = TodoItem::find($id);
 
-        $todoItem->done = ! $todoItem->done;// update($request->all());
+        $todoItem->done = ! $todoItem->done;
         $todoItem->save();
-        
-            // add image
-            // if($request->has('image')) {
-            // 	$imageName = Storage::putFile('public/image', $request->image);
-            // 	$todoItem->imageName = $imageName;
-            // 	$todoItem->save();
-            // }
 
 		$todoItem->fresh();
 
-        // return response()->json($todoItemTransformer->transform($todoItem));
         $todoItemTransformer = new TodoItemTransformer();
         $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
             return $todoItemTransformer->transform($todoItem);

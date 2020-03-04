@@ -38453,7 +38453,7 @@ var render = function() {
           }
         }
       }),
-      _vm._v(" \n    " + _vm._s(_vm.item.item) + "\n    "),
+      _vm._v(" \n    " + _vm._s(_vm.item.item) + " \n    "),
       _c("i", {
         staticClass: "fa fa-trash",
         attrs: { "aria-hidden": "true" },
