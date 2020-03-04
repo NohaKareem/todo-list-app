@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Transformers;
+// use App\Transformers\Transformer;
 
-class Transformer {
+class TodoItemTransformer extends Transformer {
     /**
      * Transform a todo item
      * @param $todoItem

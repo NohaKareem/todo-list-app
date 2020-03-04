@@ -1,13 +1,12 @@
 <?php
+    namespace App\Transformers;
 
-namespace App\Transformers;
+    abstract class Transformer {
 
-abstract class Transformer
-{
-    /**
-     * Transform an item
-     * @param $item
-     * @return mixed
-     */
-	abstract public function transform($item);
-}
+        /**
+         * Transform an item
+         * @param $item
+         * @return mixed
+         */
+        abstract public function transform($item);
+    }
