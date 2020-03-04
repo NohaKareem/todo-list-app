@@ -6,20 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 // use Illuminate\Support\Facades\Storage;
-use App\Transformers\TodoItemTransformer;
 use App\TodoItem;
+use App\Transformers\TodoItemTransformer;
 
 class TodoItemController extends Controller
 {
      /**  
      * Restrict access to entire controller to logged in users only
      * */ 
-    // public function __construct() {
-    //     $this->middleware('auth');
-    // }
+    public function __construct() {
+        $this->middleware('auth');
+    }
 
     /** 
-     * ~~Store a newly created todo item record in storage.
+     * Store a newly created todo item record in storage.
      * 
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response 
@@ -42,15 +42,16 @@ class TodoItemController extends Controller
             // 'user_id' => auth()->id()
         ]);
 
-        // return all todo items as json 
-        $todoItemTransformer = new TodoItemTransformer();
-        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
-            return $todoItemTransformer->transform($todoItem);
-        });
-        
-        dump($todoItems);
+             // return all todo items as json 
+            // $todoItemTransformer = new TodoItemTransformer();
+            // $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            //     return $todoItemTransformer->transform($todoItem);
+            // });
+            
+            // dump($todoItems);
 
-        return response()->json($todoItems);
+             // return response()->json($todoItems);
+        return compact(TodoItem::all());
     }
 
     /**
@@ -81,9 +82,9 @@ class TodoItemController extends Controller
 
 		$todoItem->fresh();
 
-		return response()->json($todoItemTransformer->transform($todoItem));
+            // return response()->json($todoItemTransformer->transform($todoItem));
+        return compact(TodoItem::all());
 	}
-
 
     /**
      * Remove the specified todo item from storage.
@@ -94,12 +95,34 @@ class TodoItemController extends Controller
     public function destroy(ToDoItem $todoItem) {
         $todoItem->delete();
 
-        // return all todo items as json
-        $todoItemTransformer = new TodoItemTransformer();
-        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
-            return $todoItemTransformer->transform($todoItem);
-        });
+            // // return all todo items as json
+            // $todoItemTransformer = new TodoItemTransformer();
+            // $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            //     return $todoItemTransformer->transform($todoItem);
+            // });
+            
+            // return response()->json($todoItems);
+        return compact(TodoItem::all());
+    }
+
+    /**
+     * Search for a particular todo item
+     * 
+     * @param $searchStr
+     */
+    public function search($searchStr) {
+        $searchResults = TodoItem::query()
+        ->where('item', 'LIKE', "%{$searchStr}%") 
+        ->get();
+
+        // $todoItemTransformer = new TodoItemTransformer();
+        // $todoItems = $searchResults->map(function ($todoItem) use ($todoItemTransformer) {
+        //     return $todoItemTransformer->transform($todoItem);
+        // });
+        // dump($todoItems);
+        return compact('searchResults');
         
-        return response()->json($todoItems);
+        // return response()->json($todoItems);
+		// return response()->json($todoItemTransformer->transform($seaarchResults));
     }
 }

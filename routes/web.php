@@ -19,3 +19,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post("/todoItem", "TodoItemController@store")->name("todoitem.create"); 
 Route::delete("/todoItem/{todoItem}", "TodoItemController@destroy")->name("todoitem.delete");
 Route::patch("/todoItem/{todoItem}", "TodoItemController@update")->name("todoitem.update");
+
+Route::get("/todoItem/search/{searchStr}", "TodoItemController@search")->name("todoitem.search");
