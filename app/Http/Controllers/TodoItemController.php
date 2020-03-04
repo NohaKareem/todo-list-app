@@ -49,8 +49,6 @@ class TodoItemController extends Controller
         });
 
         return response()->json($todoItems);
-        // $todos = TodoItem::all();
-        // return compact('todos');
     }
 
     /**
@@ -67,7 +65,6 @@ class TodoItemController extends Controller
 		$id) {
 
         $todoItem = TodoItem::find($id);
-        // http_response_code(500); 
 
 		if ($request->has('done')) {
 			$todoItem->update($request->all());
@@ -89,8 +86,6 @@ class TodoItemController extends Controller
         });
 
         return response()->json($todoItems);
-        // $todos = TodoItem::all();
-        // return compact('todos');
 	}
 
     /**
@@ -109,8 +104,6 @@ class TodoItemController extends Controller
         });
         
         return response()->json($todoItems);
-        // $todos = TodoItem::all();
-        // return compact('todos');
     }
 
     /**
