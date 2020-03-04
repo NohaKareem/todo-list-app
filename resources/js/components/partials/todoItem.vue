@@ -1,9 +1,6 @@
 <template>
     <form action="/todoItem" ref="checkBoxForm" method="post" enctype="multipart/form-data">
-        <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
         <input type="checkbox" name="done" :checked="item.done" @change="updateTodo()"> 
-        <!-- <input type="checkbox" v-else> -->
-        <!-- @click="toggleCheck(item)" -->
         {{ item.item }}
         <i class="fa fa-trash" aria-hidden="true" @click="removeTodo(item.id)"></i>
     </form>

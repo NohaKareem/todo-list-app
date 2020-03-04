@@ -36,7 +36,7 @@
                 axios.get(`/todoItem/search/${this.searchStr}`)
                     .then(response => {
                         console.log(response.data);
-                        this.$store.commit('todos', JSON.parse(response.data));
+                        this.$store.commit('todos', response.data);
                     }).catch(error => {
                         console.log(error)
                         this.$errors = error.reponse.data.errors; 

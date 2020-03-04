@@ -2006,9 +2006,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'todoItem',
   props: ['item'],
@@ -2177,7 +2174,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/todoItem/search/".concat(this.searchStr)).then(function (response) {
         console.log(response.data);
 
-        _this.$store.commit('todos', JSON.parse(response.data));
+        _this.$store.commit('todos', response.data);
       })["catch"](function (error) {
         console.log(error);
         _this.$errors = error.reponse.data.errors;
@@ -38456,8 +38453,7 @@ var render = function() {
           }
         }
       }),
-      _vm._v(" "),
-      _vm._v("\n    " + _vm._s(_vm.item.item) + "\n    "),
+      _vm._v(" \n    " + _vm._s(_vm.item.item) + "\n    "),
       _c("i", {
         staticClass: "fa fa-trash",
         attrs: { "aria-hidden": "true" },
