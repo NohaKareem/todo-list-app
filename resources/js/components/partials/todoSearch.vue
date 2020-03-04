@@ -1,46 +1,41 @@
 <template>
     <div class="container">
+        <input type="text" name="searchStr" id="searchStr" placeholder="search for todo here" @keyup="searchTodos()">
         <ul>
             <li v-for="todoItem in todoItems" 
                 :key="todoItem.id" :class="{ checked: todoItem.done }"> 
                 <todoItem :item="todoItem" />
-            </li>
-            <li>
-                <addItem />
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import AddItem from "./addItem.vue";
     import TodoItem from "./todoItem.vue";
     export default {
-        name: 'todoList',
+        name: 'todoSearch',
         computed: {
             todoItems() {
                 return this.$store.state.todos;
             }
         }, 
         components: {
-           'addItem' : AddItem, 
            'todoItem' : TodoItem
         },
         data() {
             return {
-                sending: false
+                sending: false, 
+                searchStr: ""
             }
         },
         methods: {
-            // toggleCheck(todoItem) {
-            //     todoItem.done = !todoItems.done;
-            // }
-            removeTodo(itemId) {
+            searchTodos() {
                 let self = this;
-                axios.delete(`/todoItem/${itemId}`)
+                this.searchStr = document.querySelector('#searchStr');
+                axios.get(`/todoItem/search/${this.searchStr}`)
                     .then(response => {
                         console.log(response.data);
-                        this.$store.commit('todos', response.data);
+                        this.$store.commit('todos', JSON.parse(response.data));
                     }).catch(error => {
                         console.log(error)
                         this.$errors = error.reponse.data.errors; 
@@ -50,14 +45,11 @@
     }
 </script>
 
-<style lang="scss">
-    ul {
-        list-style: none;
-        li {
-            font-size: 30px;
-            border-top: 1px solid red;
-            border-bottom: 1px solid red;
-        }
+<style lang="scss" >
+    input[type=text] {
+        font-size: 30px;
     }
-
+    #searchStr {
+        margin-left: 40px;
+    }
 </style>

@@ -1,15 +1,17 @@
 <template>
     <div class="container">
+        <todoSearch/>
         <todoList/>
     </div>
 </template>
 
 <script>
     import TodoList from './partials/todoList';
+    import TodoSearch from './partials/todoSearch';
     export default {
         name: 'app', 
         components: {
-            TodoList
+            TodoList, TodoSearch
         }, 
         props: {
             todos: Array

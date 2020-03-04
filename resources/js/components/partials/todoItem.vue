@@ -62,7 +62,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .checked {
         text-decoration: line-through;
     }

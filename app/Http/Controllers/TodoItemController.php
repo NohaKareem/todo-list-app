@@ -96,15 +96,15 @@ class TodoItemController extends Controller
     public function destroy(ToDoItem $todoItem) {
         $todoItem->delete();
 
-                    // // return all todo items as json
-                    // $todoItemTransformer = new TodoItemTransformer();
-                    // $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
-                    //     return $todoItemTransformer->transform($todoItem);
-                    // });
-                    
-                    // return response()->json($todoItems);
-        $todos = TodoItem::all();
-        return compact('todos');
+        // return all todo items as json
+        $todoItemTransformer = new TodoItemTransformer();
+        $todoItems = TodoItem::all()->map(function ($todoItem) use ($todoItemTransformer) {
+            return $todoItemTransformer->transform($todoItem);
+        });
+        
+        return response()->json($todoItems);
+        // $todos = TodoItem::all();
+        // return compact('todos');
     }
 
     /**
@@ -114,17 +114,15 @@ class TodoItemController extends Controller
      */
     public function search($searchStr) {
         $searchResults = TodoItem::query()
-        ->where('item', 'LIKE', "%{$searchStr}%") 
-        ->get();
+            ->where('item', 'LIKE', "%{$searchStr}%") 
+            ->get();
 
-        $todoItemTransformer = new TodoItemTransformer();
-        $todoItems = $searchResults->map(function ($todoItem) use ($todoItemTransformer) {
-            return $todoItemTransformer->transform($todoItem);
-        });
-        dump($todoItems);
-        // return compact('searchResults');
-        
-        return response()->json($todoItems);
-		// return response()->json($todoItemTransformer->transform($searchResults));
+        // $todoItemTransformer = new TodoItemTransformer();
+        // $todoItems = $searchResults->map(function ($todoItem) use ($todoItemTransformer) {
+        //     return $todoItemTransformer->transform($todoItem);
+        // });
+        // dump($todoItems);
+        // return response()->json($todoItems);
+        return compact('searchResults');        
     }
 }
