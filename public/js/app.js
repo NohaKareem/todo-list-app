@@ -2169,9 +2169,9 @@ __webpack_require__.r(__webpack_exports__);
     searchTodos: function searchTodos() {
       var _this = this;
 
-      var self = this;
-      this.searchStr = document.querySelector('#searchStr');
-      axios.get("/todoItem/search/".concat(this.searchStr)).then(function (response) {
+      var self = this; // this.searchStr = document.querySelector('#searchStr');
+
+      axios.get("/todoItem/search/".concat(self.searchStr)).then(function (response) {
         console.log(response.data);
 
         _this.$store.commit('todos', response.data);
@@ -38531,15 +38531,30 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.searchStr,
+          expression: "searchStr"
+        }
+      ],
       attrs: {
         type: "text",
         name: "searchStr",
         id: "searchStr",
         placeholder: "search for todo here"
       },
+      domProps: { value: _vm.searchStr },
       on: {
         keyup: function($event) {
           return _vm.searchTodos()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.searchStr = $event.target.value
         }
       }
     }),

@@ -66,25 +66,27 @@ class TodoItemController extends Controller
 		Request $request, 
 		TodoItemTransformer $todoItemTransformer, 
 		$id) {
+
         $todoItem = TodoItem::find($id);
-        http_response_code(500); 
-		dd($todoItem);
+        // http_response_code(500); 
+
 		if ($request->has('done')) {
 			$todoItem->update($request->all());
 		}
 
-        // add image
-		// if($request->has('image')) {
-		// 	$imageName = Storage::putFile('public/image', $request->image);
-		// 	$todoItem->imageName = $imageName;
-		// 	$todoItem->save();
-		// }
+            // add image
+            // if($request->has('image')) {
+            // 	$imageName = Storage::putFile('public/image', $request->image);
+            // 	$todoItem->imageName = $imageName;
+            // 	$todoItem->save();
+            // }
 
 		$todoItem->fresh();
 
-        return response()->json($todoItemTransformer->transform($todoItem));
-        // $todos = TodoItem::all();
-        // return compact('todos');
+        // return response()->json($todoItemTransformer->transform($todoItem));
+
+        $todos = TodoItem::all();
+        return compact('todos');
 	}
 
     /**

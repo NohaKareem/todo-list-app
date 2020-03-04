@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <input type="text" name="searchStr" id="searchStr" placeholder="search for todo here" @keyup="searchTodos()">
+        <input type="text" name="searchStr" v-model="searchStr" id="searchStr" placeholder="search for todo here" @keyup="searchTodos()">
         <i class="fa fa-search" aria-hidden="true"></i>
         <ul>
             <li v-for="todoItem in todoItems" 
@@ -32,8 +32,8 @@
         methods: {
             searchTodos() {
                 let self = this;
-                this.searchStr = document.querySelector('#searchStr');
-                axios.get(`/todoItem/search/${this.searchStr}`)
+                // this.searchStr = document.querySelector('#searchStr');
+                axios.get(`/todoItem/search/${self.searchStr}`)
                     .then(response => {
                         console.log(response.data);
                         this.$store.commit('todos', response.data);
