@@ -1,7 +1,7 @@
 <?php
     namespace App\Transformers;
 
-    abstract class Transformer {
+    abstract class AbstractTransformer {
 
         /**
          * Transform an item

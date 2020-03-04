@@ -2,7 +2,7 @@
     namespace App\Transformers;
     // use App\Transformers\Transformer;
 
-    class TodoItemTransformer extends Transformer {
+    class TodoItemTransformer extends AbstractTransformer {
         /** 
          * Transform the todo item
          * @paraam $todoItem
