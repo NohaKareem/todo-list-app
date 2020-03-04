@@ -1,7 +1,8 @@
 <template>
-    <form action="/todoItem" method="post" enctype="multipart/form-data">
-        <input type="checkbox" checked v-if="item.done"> 
-        <input type="checkbox" v-else>
+    <form action="/todoItem" ref="checkBoxForm" method="post" enctype="multipart/form-data">
+        <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
+        <input type="checkbox" name="done" checked v-if="item.done" @change="updateTodo()"> 
+        <!-- <input type="checkbox" v-else> -->
         <!-- @click="toggleCheck(item)" -->
         {{ item.item }}
         <i class="fa fa-trash" aria-hidden="true" @click="removeTodo(item.id)"></i>
@@ -23,6 +24,10 @@
             }
         },
         methods: {
+            /** 
+             * remove item with itemId from todo list
+             * @param increment itemId
+             */
             removeTodo(itemId) {
                 let self = this;
                 axios.delete(`/todoItem/${itemId}`)
@@ -33,7 +38,26 @@
                         console.log(error)
                         this.$errors = error.reponse.data.errors; 
                     });
+            }, 
+            /** 
+             * update item in todo list with check/uncheck 
+             */
+            updateTodo() {
+                this.sending = true;
+
+    			const formData = new FormData(this.$refs.checkBoxForm);
+    			formData.append('_method', 'PATCH');
+
+    			axios.post(`/todoItem/${this.item.id}`, formData)
+    			.then(response => {
+    				this.$store.commit('todos', repsonse.data);
+    			}).catch(error => {
+    				this.errors = error.response.data.errors;
+    			}).then(() => {
+    				this.sending = false;
+    			})
             }
+
         }
     }
 </script>

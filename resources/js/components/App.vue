@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        Todo List App
         <todoList/>
     </div>
 </template>

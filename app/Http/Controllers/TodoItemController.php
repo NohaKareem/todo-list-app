@@ -54,6 +54,38 @@ class TodoItemController extends Controller
     }
 
     /**
+	 * Update TodoItem
+	 *
+	 * @param Request request
+	 * @param TodoItemTransformer $TodoItemTransformer
+	 * @param $id
+	 * @return \illuminate\Http\JsonResponse
+	 */
+	public function update(
+		Request $request, 
+		TodoItemTransformer $todoItemTransformer, 
+		$id) {
+        $todoItem = TodoItem::find($id);
+        http_response_code(500); 
+		dd($todoItem);
+		if ($request->has('done')) {
+			$todoItem->update($request->all());
+		}
+
+        // add image
+		// if($request->has('image')) {
+		// 	$imageName = Storage::putFile('public/image', $request->image);
+		// 	$todoItem->imageName = $imageName;
+		// 	$todoItem->save();
+		// }
+
+		$todoItem->fresh();
+
+		return response()->json($todoItemTransformer->transform($todoItem));
+	}
+
+
+    /**
      * Remove the specified todo item from storage.
      *
      * @param  \App\TodoItem  $todoItem

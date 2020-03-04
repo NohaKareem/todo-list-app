@@ -1915,7 +1915,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app',
@@ -2005,6 +2004,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'todoItem',
   props: ['item'],
@@ -2019,6 +2019,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    /** 
+     * remove item with itemId from todo list
+     * @param increment itemId
+     */
     removeTodo: function removeTodo(itemId) {
       var _this = this;
 
@@ -2030,6 +2034,24 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
         _this.$errors = error.reponse.data.errors;
+      });
+    },
+
+    /** 
+     * update item in todo list with check/uncheck 
+     */
+    updateTodo: function updateTodo() {
+      var _this2 = this;
+
+      this.sending = true;
+      var formData = new FormData(this.$refs.checkBoxForm);
+      formData.append('_method', 'PATCH');
+      axios.post("/todoItem/".concat(this.item.id), formData).then(function (response) {
+        _this2.$store.commit('todos', repsonse.data);
+      })["catch"](function (error) {
+        _this2.errors = error.response.data.errors;
+      }).then(function () {
+        _this2.sending = false;
       });
     }
   }
@@ -38215,12 +38237,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [_vm._v("\n    Todo List App\n    "), _c("todoList")],
-    1
-  )
+  return _c("div", { staticClass: "container" }, [_c("todoList")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38304,6 +38321,7 @@ var render = function() {
   return _c(
     "form",
     {
+      ref: "checkBoxForm",
       attrs: {
         action: "/todoItem",
         method: "post",
@@ -38312,8 +38330,15 @@ var render = function() {
     },
     [
       _vm.item.done
-        ? _c("input", { attrs: { type: "checkbox", checked: "" } })
-        : _c("input", { attrs: { type: "checkbox" } }),
+        ? _c("input", {
+            attrs: { type: "checkbox", name: "done", checked: "" },
+            on: {
+              change: function($event) {
+                return _vm.updateTodo()
+              }
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _vm._v("\n    " + _vm._s(_vm.item.item) + "\n    "),
       _c("i", {

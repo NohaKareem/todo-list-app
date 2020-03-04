@@ -51,7 +51,7 @@
 </script>
 
 <style lang="scss" scoped>
-// import~
+// import 
     ul {
         list-style: none;
         li {
