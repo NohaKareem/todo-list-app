@@ -38493,12 +38493,10 @@ var render = function() {
       "ul",
       [
         _vm._l(_vm.todoItems, function(todoItem) {
-          return _c(
-            "li",
-            { key: todoItem.id, class: { checked: todoItem.done } },
-            [_c("todoItem", { attrs: { item: todoItem } })],
-            1
-          )
+          return _c("li", {
+            key: todoItem.id,
+            class: { checked: todoItem.done }
+          })
         }),
         _vm._v(" "),
         _c("li", [_c("addItem")], 1)
@@ -55301,8 +55299,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Noha\Dropbox\IMS\s2\6006_tina_ast\assi\assi3\kareem_noha_todo\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Noha\Dropbox\IMS\s2\6006_tina_ast\assi\assi3\kareem_noha_todo\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Noha\Dropbox\IMS\s2\tina_ast_6006\assi\assi3\kareem_noha_todo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Noha\Dropbox\IMS\s2\tina_ast_6006\assi\assi3\kareem_noha_todo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

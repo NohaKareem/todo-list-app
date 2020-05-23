@@ -3,7 +3,7 @@
         <ul>
             <li v-for="todoItem in todoItems" 
                 :key="todoItem.id" :class="{ checked: todoItem.done }"> 
-                <todoItem :item="todoItem" />
+                <!-- <todoItem :item="todoItem" /> -->
             </li>
             <li>
                 <addItem />
